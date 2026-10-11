@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SolarSaathi ☀️ | Rooftop Solar Savings & Environmental Impact Evaluator</title>
+  <meta name="description" content="AI-powered Indian rooftop solar potential calculator, PM Surya Ghar subsidy evaluator, financial savings analysis, and environmental impact assessment.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="64x64" href="favicon.png">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="apple-touch-icon" href="favicon.png">
+  
+  <!-- Offline-first Chart.js script -->
+  <script src="chart.min.js"></script>
+  <script>
+    if (typeof Chart === 'undefined') {
+      document.write('<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"><\/script>');
+    }
+  </script>
+</head>
+<body id="top">
+
+  <!-- Header & Sticky Navbar -->
+  <header class="header">
+    <nav class="navbar" aria-label="Main Navigation">
+      <div class="nav-container">
+        <a href="#top" class="brand-logo" aria-label="SolarSaathi Home">
+          <img src="logo.png" alt="SolarSaathi Logo" class="brand-logo-img">
+          <span class="logo-text">SolarSaathi</span>
+        </a>
+
+        <!-- Mobile Menu Toggle Button -->
+        <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navMenu" aria-label="Toggle Navigation Menu">
+          <span class="hamburger"></span>
+        </button>
+
+        <!-- Navigation Links -->
+        <div class="nav-menu" id="navMenu">
+          <ul class="nav-list">
+            <li><a href="#how-it-works" class="nav-link">How It Works</a></li>
+            <li><a href="#why-solar" class="nav-link">Why Switch to Solar?</a></li>
+            <li><a href="#analytics" class="nav-link">Visual Analytics</a></li>
+            <li><a href="#faqs" class="nav-link">FAQs</a></li>
+          </ul>
+          <div class="nav-cta-wrap">
+            <a href="#calculator" class="btn btn-primary nav-cta">Calculate Savings</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Hero / Intro Section -->
+    <section class="hero-section">
+      <div class="container hero-container">
+        <div class="hero-content">
+          <span class="eyebrow-badge">YOUR ROOFTOP. YOUR ENERGY. YOUR SAVINGS.</span>
+          <h1 class="hero-title">See How Much You Could Save with Solar.</h1>
+          <p class="hero-subtitle">
+            Explore your rooftop solar potential, estimated investment, government subsidy under PM Surya Ghar, electricity bill savings, and environmental impact.
+          </p>
+          <div class="hero-highlights">
+            <span class="highlight-item"><span class="check-icon">✓</span> PM Surya Ghar Subsidy</span>
+            <span class="highlight-item"><span class="check-icon">✓</span> 36 States &amp; UT Benchmarks</span>
+            <span class="highlight-item"><span class="check-icon">✓</span> 100% Free &amp; Local</span>
+          </div>
+
+          <!-- Hero Rooftop Solar Showcase Image -->
+          <div class="hero-image-container">
+            <div class="hero-image-wrapper">
+              <img src="rooftop-solar.jpg" alt="Residential rooftop solar installation on an Indian terrace home at sunset" class="hero-rooftop-img" loading="eager">
+              <div class="hero-image-overlay">
+                <span class="image-tag-badge">☀️ PM Surya Ghar: Muft Bijli Yojana</span>
+                <span class="image-tag-sub">Harness clean rooftop solar energy for your home &amp; save up to 75% on electricity bills</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Calculator Section -->
+    <section id="calculator" class="calculator-section">
+      <div class="container">
+        <div class="calculator-card">
+          <div class="card-header">
+            <h2 class="card-title">Rooftop Solar &amp; Savings Calculator</h2>
+            <p class="card-subtitle">
+              Enter your recent electricity bills and usable roof space. We will calibrate your system size, calculate indicative subsidies, and project your returns.
+            </p>
+          </div>
+
+          <form id="solarForm" class="calculator-form" novalidate>
+            <div class="form-grid">
+              <!-- Bill 1 -->
+              <div class="form-group">
+                <label for="bill1" class="form-label">
+                  Month 1 Bill (₹) <span class="required">*</span>
+                </label>
+                <div class="input-wrapper">
+                  <span class="input-prefix">₹</span>
+                  <input type="number" id="bill1" name="bill1" class="form-control" placeholder="e.g. 2500" min="0" max="500000" step="any" required>
+                </div>
+                <span class="field-error" id="bill1-error"></span>
+              </div>
+
+              <!-- Bill 2 -->
+              <div class="form-group">
+                <label for="bill2" class="form-label">
+                  Month 2 Bill (₹) <span class="required">*</span>
+                </label>
+                <div class="input-wrapper">
+                  <span class="input-prefix">₹</span>
+                  <input type="number" id="bill2" name="bill2" class="form-control" placeholder="e.g. 2800" min="0" max="500000" step="any" required>
+                </div>
+                <span class="field-error" id="bill2-error"></span>
+              </div>
+
+              <!-- Bill 3 -->
+              <div class="form-group">
+                <label for="bill3" class="form-label">
+                  Month 3 Bill (₹) <span class="required">*</span>
+                </label>
+                <div class="input-wrapper">
+                  <span class="input-prefix">₹</span>
+                  <input type="number" id="bill3" name="bill3" class="form-control" placeholder="e.g. 2650" min="0" max="500000" step="any" required>
+                </div>
+                <span class="field-error" id="bill3-error"></span>
+              </div>
+
+              <!-- Usable Rooftop Area -->
+              <div class="form-group">
+                <label for="roof_sqft" class="form-label">
+                  Usable Rooftop Area (sq. ft) <span class="required">*</span>
+                </label>
+                <div class="input-wrapper">
+                  <span class="input-prefix">📐</span>
+                  <input type="number" id="roof_sqft" name="roof_sqft" class="form-control" placeholder="e.g. 500" min="10" max="100000" step="any" required>
+                </div>
+                <span class="field-error" id="roof-error"></span>
+              </div>
+
+              <!-- State Selection -->
+              <div class="form-group">
+                <label for="state" class="form-label">
+                  Indian State / UT <span class="required">*</span>
+                </label>
+                <div class="input-wrapper">
+                  <select id="state" name="state" class="form-control select-control" required>
+                    <option value="" disabled selected>Select State or Union Territory</option>
+                    <optgroup label="States">
+                      <option value="Andhra Pradesh">Andhra Pradesh</option>
+                      <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                      <option value="Assam">Assam</option>
+                      <option value="Bihar">Bihar</option>
+                      <option value="Chhattisgarh">Chhattisgarh</option>
+                      <option value="Goa">Goa</option>
+                      <option value="Gujarat">Gujarat</option>
+                      <option value="Haryana">Haryana</option>
+                      <option value="Himachal Pradesh">Himachal Pradesh</option>
+                      <option value="Jharkhand">Jharkhand</option>
+                      <option value="Karnataka">Karnataka</option>
+                      <option value="Kerala">Kerala</option>
+                      <option value="Madhya Pradesh">Madhya Pradesh</option>
+                      <option value="Maharashtra">Maharashtra</option>
+                      <option value="Manipur">Manipur</option>
+                      <option value="Meghalaya">Meghalaya</option>
+                      <option value="Mizoram">Mizoram</option>
+                      <option value="Nagaland">Nagaland</option>
+                      <option value="Odisha">Odisha</option>
+                      <option value="Punjab">Punjab</option>
+                      <option value="Rajasthan">Rajasthan</option>
+                      <option value="Sikkim">Sikkim</option>
+                      <option value="Tamil Nadu">Tamil Nadu</option>
+                      <option value="Telangana">Telangana</option>
+                      <option value="Tripura">Tripura</option>
+                      <option value="Uttar Pradesh">Uttar Pradesh</option>
+                      <option value="Uttarakhand">Uttarakhand</option>
+                      <option value="West Bengal">West Bengal</option>
+                    </optgroup>
+                    <optgroup label="Union Territories">
+                      <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+                      <option value="Chandigarh">Chandigarh</option>
+                      <option value="Dadra and Nagar Haveli and Daman and Diu">Dadra and Nagar Haveli and Daman and Diu</option>
+                      <option value="Delhi">Delhi</option>
+                      <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                      <option value="Ladakh">Ladakh</option>
+                      <option value="Lakshadweep">Lakshadweep</option>
+                      <option value="Puducherry">Puducherry</option>
+                    </optgroup>
+                  </select>
+                </div>
+                <span class="field-error" id="state-error"></span>
+              </div>
+
+              <!-- City Input -->
+              <div class="form-group">
+                <label for="city" class="form-label">
+                  City / Town <span class="optional-label">(Optional)</span>
+                </label>
+                <div class="input-wrapper">
+                  <span class="input-prefix">📍</span>
+                  <input type="text" id="city" name="city" class="form-control" placeholder="e.g. Jaipur">
+                </div>
+                <span class="field-error" id="city-error"></span>
+              </div>
+            </div>
+
+            <!-- Helper Guidance Note -->
+            <div class="form-helper-box">
+              <span class="helper-icon">💡</span>
+              <p class="helper-text">
+                <strong>Why 3 bills?</strong> Electricity usage varies between summer and winter. Averaging three consecutive bills creates a balanced baseline for right-sizing your solar array. <strong>Usable area</strong> represents shadow-free rooftop space (~100 sq. ft is needed per 1 kW system).
+              </p>
+            </div>
+
+            <!-- Form Status / Global Error Message -->
+            <div id="formAlert" class="alert-box alert-error hidden" role="alert"></div>
+
+            <!-- Submit Button -->
+            <div class="form-submit-wrap">
+              <button type="submit" id="calculateBtn" class="btn btn-primary btn-large">
+                <span class="btn-text">Calculate Solar Potential &amp; Savings →</span>
+                <span class="btn-spinner hidden" aria-hidden="true"></span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Results Section -->
+    <section id="results" class="results-section">
+      <div class="container">
+        
+        <!-- Live Climate Banner -->
+        <div class="live-climate-banner" id="climateBanner">
+          <span class="banner-icon">☀️</span>
+          <span class="banner-text" id="weatherStatusText">
+            Live Weather: Sensor offline (using regional insolation benchmark). | Financial estimates use regional solar-insolation benchmarks.
+          </span>
+        </div>
+
+        <!-- Result Status Badge -->
+        <div class="results-header-bar">
+          <div>
+            <span class="status-pill badge-beige" id="estimateStatusBadge">Sample Estimate</span>
+            <span class="status-location" id="estimateLocationBadge">Jaipur, Rajasthan (5.6 Peak Sun Hours)</span>
+          </div>
+          <span class="timestamp-label" id="estimateTimestamp">Illustrative baseline</span>
+        </div>
+
+        <!-- 4 Key Financial Metric Cards -->
+        <div class="metrics-grid">
+          <!-- Card 1: System Size -->
+          <div class="metric-card">
+            <div class="metric-card-top">
+              <span class="metric-label">Recommended System Size</span>
+              <span class="card-badge">Capacity</span>
+            </div>
+            <div class="metric-value-wrap">
+              <span class="metric-value" id="valRecommendedKw">3.0</span>
+              <span class="metric-unit">kW</span>
+            </div>
+            <div class="metric-detail-list">
+              <div class="metric-subdetail">
+                <span>Monthly Generation:</span>
+                <strong id="valMonthlyGenKwh">403 kWh</strong>
+              </div>
+              <div class="metric-subdetail">
+                <span>Annual Generation:</span>
+                <strong id="valAnnualGenKwh">4,838 kWh</strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2: Subsidy -->
+          <div class="metric-card highlight-card">
+            <div class="metric-card-top">
+              <span class="metric-label">PM Surya Ghar Subsidy</span>
+              <span class="card-badge badge-green">Central Aid</span>
+            </div>
+            <div class="metric-value-wrap">
+              <span class="metric-value text-green" id="valSubsidyInr">₹78,000</span>
+            </div>
+            <div class="metric-detail-list">
+              <div class="metric-subdetail">
+                <span>Gross Turnkey Cost:</span>
+                <strong id="valGrossCostInr">₹1,65,000</strong>
+              </div>
+              <div class="metric-subdetail">
+                <span>Max Subsidy Slab:</span>
+                <span>₹78,000 (3 kW cap)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3: Net Investment -->
+          <div class="metric-card">
+            <div class="metric-card-top">
+              <span class="metric-label">Estimated Net Investment</span>
+              <span class="card-badge">Out-of-Pocket</span>
+            </div>
+            <div class="metric-value-wrap">
+              <span class="metric-value" id="valNetInvestmentInr">₹87,000</span>
+            </div>
+            <div class="metric-detail-list">
+              <div class="metric-subdetail">
+                <span>Gross Cost – Subsidy</span>
+              </div>
+              <div class="metric-subdetail">
+                <span>Estimated Monthly Savings:</span>
+                <strong class="text-green" id="valMonthlySavingsInr">₹2,000</strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 4: Payback Period -->
+          <div class="metric-card">
+            <div class="metric-card-top">
+              <span class="metric-label">Simple Payback Period</span>
+              <span class="card-badge badge-amber">Break-Even</span>
+            </div>
+            <div class="metric-value-wrap">
+              <span class="metric-value" id="valPaybackYears">3.6</span>
+              <span class="metric-unit">Years</span>
+            </div>
+            <div class="metric-detail-list">
+              <div class="metric-subdetail">
+                <span>Annual Savings:</span>
+                <strong class="text-green" id="valAnnualSavingsInr">₹24,000</strong>
+              </div>
+              <div class="metric-subdetail">
+                <span>Post-Solar Bill:</span>
+                <strong id="valPostSolarBillInr">₹650 / mo</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Environmental Impact Cards -->
+        <div class="section-title-wrap">
+          <h3 class="subsection-title">Environmental Footprint Avoided</h3>
+          <p class="subsection-desc">Illustrative ecological impact based on Central Electricity Authority thermal displacement benchmarks.</p>
+        </div>
+
+        <div class="green-grid">
+          <!-- CO2 Avoided -->
+          <div class="green-card">
+            <div class="green-icon">🌍</div>
+            <div class="green-data">
+              <span class="green-val" id="valCo2Avoided">3,967</span>
+              <span class="green-unit">kg CO₂ / year</span>
+            </div>
+            <div class="green-label">Clean Air Offset</div>
+            <div class="green-subtext">Avoided greenhouse gas emissions from grid power</div>
+          </div>
+
+          <!-- Coal Displaced -->
+          <div class="green-card">
+            <div class="green-icon">⛏️</div>
+            <div class="green-data">
+              <span class="green-val" id="valCoalSaved">2,177</span>
+              <span class="green-unit">kg Coal / year</span>
+            </div>
+            <div class="green-label">Thermal Coal Displaced</div>
+            <div class="green-subtext">Raw fossil fuel conserved by solar rooftop self-generation</div>
+          </div>
+
+          <!-- Water Conserved -->
+          <div class="green-card">
+            <div class="green-icon">💧</div>
+            <div class="green-data">
+              <span class="green-val" id="valWaterSaved">12,095</span>
+              <span class="green-unit">Litres / year</span>
+            </div>
+            <div class="green-label">Power Cooling Water Saved</div>
+            <div class="green-subtext">Thermal power plant evaporative cooling water conserved</div>
+          </div>
+
+          <!-- Tree Equivalents -->
+          <div class="green-card">
+            <div class="green-icon">🌳</div>
+            <div class="green-data">
+              <span class="green-val" id="valTreesEquivalent">180</span>
+              <span class="green-unit">Mature Trees</span>
+            </div>
+            <div class="green-label">Tree Absorption Equivalent</div>
+            <div class="green-subtext">Equivalent 10-year tree carbon absorption capacity</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Visual Analytics Section -->
+    <section id="analytics" class="analytics-section">
+      <div class="container">
+        <div class="section-head text-center">
+          <span class="eyebrow-badge">FINANCIAL VISUALIZATION</span>
+          <h2 class="section-title">Your Solar Savings, Visualised</h2>
+          <p class="section-subtitle">
+            Compare your current monthly electricity expenses with solar self-generation, and track your cumulative 10-year return on investment.
+          </p>
+        </div>
+
+        <div class="charts-grid">
+          <!-- Chart 1: Monthly Bill Comparison -->
+          <div class="chart-card">
+            <div class="chart-header">
+              <div>
+                <h3 class="chart-title">Electricity Bill Comparison (Grouped)</h3>
+                <p class="chart-subtitle">Monthly &amp; Annual: Current vs. Post-Solar</p>
+              </div>
+              <div class="savings-pill" id="monthlySavingsPill">
+                Saves ₹2,000 / mo (75% cut)
+              </div>
+            </div>
+            <div class="chart-canvas-wrap">
+              <canvas id="billComparisonChart" aria-label="Monthly electricity bill comparison chart"></canvas>
+            </div>
+            <div class="chart-footer-note">
+              <span>Current Avg: <strong id="chartAvgBillLabel">₹2,650</strong></span>
+              <span>•</span>
+              <span>Post-Solar Est: <strong id="chartPostBillLabel">₹650</strong></span>
+              <span>•</span>
+              <span>Net Monthly Savings: <strong class="text-green" id="chartMonthlySavingsLabel">₹2,000</strong></span>
+            </div>
+          </div>
+
+          <!-- Chart 2: 10-Year ROI Line Chart -->
+          <div class="chart-card">
+            <div class="chart-header">
+              <div>
+                <h3 class="chart-title">Ten-Year Solar ROI &amp; Cumulative Benefit</h3>
+                <p class="chart-subtitle">Net Cumulative Wealth Created After Full Capital Recovery</p>
+              </div>
+              <div class="savings-pill pill-amber" id="breakEvenPill">
+                Break-even: ~3.6 Years
+              </div>
+            </div>
+            <div class="chart-canvas-wrap">
+              <canvas id="roiChart" aria-label="Ten year solar return on investment line chart"></canvas>
+            </div>
+            <!-- ROI Summary Metrics Grid -->
+            <div class="roi-summary-grid">
+              <div class="roi-summary-item">
+                <span class="roi-summary-label">Net Investment</span>
+                <span class="roi-summary-val" id="roiNetInv">₹87,000</span>
+              </div>
+              <div class="roi-summary-item">
+                <span class="roi-summary-label">Annual Savings</span>
+                <span class="roi-summary-val text-green" id="roiAnnualSav">₹24,000</span>
+              </div>
+              <div class="roi-summary-item">
+                <span class="roi-summary-label">Simple Payback</span>
+                <span class="roi-summary-val" id="roiPayback">3.6 Yrs</span>
+              </div>
+              <div class="roi-summary-item">
+                <span class="roi-summary-label">10-Yr Net Benefit</span>
+                <span class="roi-summary-val text-green" id="roiTenYear">₹1,53,000</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Recent Calculations History -->
+    <section class="history-section">
+      <div class="container">
+        <div class="history-card">
+          <div class="history-header">
+            <div>
+              <h3 class="history-title">Recent Solar Assessments</h3>
+              <p class="history-subtitle">Persisted locally in SQLite for rapid comparison across rooftop locations.</p>
+            </div>
+            <button id="refreshHistoryBtn" class="btn btn-secondary btn-sm" aria-label="Refresh saved estimates">
+              ↻ Refresh
+            </button>
+          </div>
+
+          <div class="table-responsive">
+            <table class="history-table" aria-label="Recent calculations history table">
+              <thead>
+                <tr>
+                  <th>Date &amp; Time</th>
+                  <th>Location</th>
+                  <th>Avg Monthly Bill</th>
+                  <th>Recommended Size</th>
+                  <th>Govt. Subsidy</th>
+                  <th>Net Investment</th>
+                  <th>Payback Period</th>
+                </tr>
+              </thead>
+              <tbody id="historyTableBody">
+                <tr class="empty-row">
+                  <td colspan="7">Loading recent local estimates...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="how-section">
+      <div class="container">
+        <div class="section-head text-center">
+          <span class="eyebrow-badge">THE PROCESS</span>
+          <h2 class="section-title">How SolarSaathi Works</h2>
+          <p class="section-subtitle">
+            A transparent four-step engineering pipeline combining official insolation benchmarks, consumption modeling, and PM Surya Ghar central guidelines.
+          </p>
+        </div>
+
+        <div class="steps-grid">
+          <div class="step-card">
+            <div class="step-number">01</div>
+            <h3 class="step-title">Enter Your Details</h3>
+            <p class="step-desc">
+              Provide your recent 3 electricity bills, usable rooftop area, and state to establish an accurate seasonal baseline.
+            </p>
+          </div>
+
+          <div class="step-card">
+            <div class="step-number">02</div>
+            <h3 class="step-title">Assess Solar Potential</h3>
+            <p class="step-desc">
+              We apply state-level peak sun hours (ranging from 4.1 to 5.8 kWh/m²/day) and a standard 80% performance ratio to calibrate system capacity.
+            </p>
+          </div>
+
+          <div class="step-card">
+            <div class="step-number">03</div>
+            <h3 class="step-title">Explore Your Savings</h3>
+            <p class="step-desc">
+              Calculate indicative PM Surya Ghar central subsidies (up to ₹78,000), turnkey installation costs, monthly savings, and your break-even period.
+            </p>
+          </div>
+
+          <div class="step-card">
+            <div class="step-number">04</div>
+            <h3 class="step-title">Discover Green Impact</h3>
+            <p class="step-desc">
+              Quantify your environmental contribution: carbon emissions avoided, coal displaced, power cooling water conserved, and equivalent mature trees.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why Switch to Solar Now? -->
+    <section id="why-solar" class="why-section">
+      <div class="container">
+        <div class="section-head text-center">
+          <span class="eyebrow-badge">CLEAN ENERGY TRANSITION</span>
+          <h2 class="section-title">Why Switch to Solar Now?</h2>
+          <p class="section-subtitle">
+            Indian households enjoy unprecedented financial incentives and favorable rooftop solar economics under current national renewable policies.
+          </p>
+        </div>
+
+        <div class="benefits-grid">
+          <div class="benefit-card">
+            <div class="benefit-icon">🛡️</div>
+            <h3 class="benefit-title">Take Control of Electricity Costs</h3>
+            <p class="benefit-desc">
+              Shield your family budget against recurring utility tariff hikes by generating your own clean, free electricity right above your living room.
+            </p>
+          </div>
+
+          <div class="benefit-card">
+            <div class="benefit-icon">🏛️</div>
+            <h3 class="benefit-title">Explore Government Support</h3>
+            <p class="benefit-desc">
+              Under the PM Surya Ghar: Muft Bijli Yojana, eligible residential consumers receive direct central financial assistance of up to ₹78,000.
+            </p>
+          </div>
+
+          <div class="benefit-card">
+            <div class="benefit-icon">🏠</div>
+            <h3 class="benefit-title">Make Use of Your Rooftop</h3>
+            <p class="benefit-desc">
+              Transform unused concrete terrace or pitched tin roof into a productive clean power plant that creates tangible long-term value for decades.
+            </p>
+          </div>
+
+          <div class="benefit-card">
+            <div class="benefit-icon">🌱</div>
+            <h3 class="benefit-title">Reduce Your Environmental Footprint</h3>
+            <p class="benefit-desc">
+              Directly displace high-emission thermal coal burning and conserve thousands of litres of water per year used in conventional thermal power cooling.
+            </p>
+          </div>
+        </div>
+
+        <!-- Official Scheme CTA Banner -->
+        <div class="scheme-cta-box">
+          <div class="scheme-cta-content">
+            <h3 class="scheme-cta-title">Ready to verify official subsidy eligibility?</h3>
+            <p class="scheme-cta-desc">
+              Visit the Government of India's national portal to register your connection, find DISCOM-empanelled vendors, and apply online.
+            </p>
+          </div>
+          <a href="https://www.myscheme.gov.in/schemes/pmsgmb" target="_blank" rel="noopener noreferrer" class="btn btn-secondary scheme-btn">
+            Official PM Surya Ghar Scheme ↗
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQs Section -->
+    <section id="faqs" class="faqs-section">
+      <div class="container">
+        <div class="section-head text-center">
+          <span class="eyebrow-badge">FREQUENTLY ASKED QUESTIONS</span>
+          <h2 class="section-title">Answers to Common Solar Questions</h2>
+          <p class="section-subtitle">
+            Everything you need to know about rooftop solar sizing, subsidies, payback periods, and our calculation methodology.
+          </p>
+        </div>
+
+        <div class="accordion" id="faqAccordion">
+          <!-- FAQ 1 -->
+          <div class="accordion-item">
+            <button class="accordion-header" aria-expanded="false" aria-controls="faq1">
+              <span>What is SolarSaathi?</span>
+              <span class="accordion-icon">+</span>
+            </button>
+            <div id="faq1" class="accordion-body" hidden>
+              <p>
+                SolarSaathi is an open educational web application designed for Indian homeowners and college hackathon evaluation. It provides indicative rooftop solar capacity recommendations, estimates PM Surya Ghar financial assistance, calculates electricity bill reductions, projects 10-year investment returns, and estimates ecological benefits using transparent, configurable mathematical models.
+              </p>
+            </div>
+          </div>
+
+          <!-- FAQ 2 -->
+          <div class="accordion-item">
+            <button class="accordion-header" aria-expanded="false" aria-controls="faq2">
+              <span>How accurate are the calculator's results?</span>
+              <span class="accordion-icon">+</span>
+            </button>
+            <div id="faq2" class="accordion-body" hidden>
+              <p>
+                Results are preliminary engineering estimates. SolarSaathi uses regional peak sun hour benchmarks (4.1 to 5.8 kWh/m²/day), a standard 80% performance ratio, and benchmark turnkey installation costs (₹55,000/kW). Actual generation will depend on roof tilt, orientation, local shadowing from trees or adjacent buildings, module quality, and your local DISCOM's tariff slabs and net-metering regulations.
+              </p>
+            </div>
+          </div>
+
+          <!-- FAQ 3 -->
+          <div class="accordion-item">
+            <button class="accordion-header" aria-expanded="false" aria-controls="faq3">
+              <span>Does SolarSaathi guarantee PM Surya Ghar subsidy approval?</span>
+              <span class="accordion-icon">+</span>
+            </button>
+            <div id="faq3" class="accordion-body" hidden>
+              <p>
+                No. SolarSaathi is an independent educational tool and cannot approve subsidies or confirm official eligibility. Subsidy approval depends on registration via the National Portal for PM Surya Ghar, verification of your electricity consumer number, installation through an empanelled vendor, bi-directional net meter installation, and physical inspection by your local distribution company.
+              </p>
+            </div>
+          </div>
+
+          <!-- FAQ 4 -->
+          <div class="accordion-item">
+            <button class="accordion-header" aria-expanded="false" aria-controls="faq4">
+              <span>Why does the calculator ask for three electricity bills?</span>
+              <span class="accordion-icon">+</span>
+            </button>
+            <div id="faq4" class="accordion-body" hidden>
+              <p>
+                Household power consumption varies throughout the year due to weather, seasonal air conditioning, and water heating. By averaging three consecutive bills, SolarSaathi calculates a more representative baseline demand, preventing under-sizing in winter or severe over-sizing based on peak summer heatwaves.
+              </p>
+            </div>
+          </div>
+
+          <!-- FAQ 5 -->
+          <div class="accordion-item">
+            <button class="accordion-header" aria-expanded="false" aria-controls="faq5">
+              <span>How much rooftop space do I need?</span>
+              <span class="accordion-icon">+</span>
+            </button>
+            <div id="faq5" class="accordion-body" hidden>
+              <p>
+                Modern high-efficiency solar photovoltaic panels typically require approximately 100 square feet of shadow-free rooftop area per 1 kW of installed capacity. A standard 3 kW residential array requires around 300 sq. ft of unshaded terrace or roof space.
+              </p>
+            </div>
+          </div>
+
+          <!-- FAQ 6 -->
+          <div class="accordion-item">
+            <button class="accordion-header" aria-expanded="false" aria-controls="faq6">
+              <span>Will rooftop solar eliminate my electricity bill?</span>
+              <span class="accordion-icon">+</span>
+            </button>
+            <div id="faq6" class="accordion-body" hidden>
+              <p>
+                A well-sized solar system can offset 70% to 90% or more of your energy consumption units. However, monthly utility bills usually still include fixed meter charges, electricity duty, and minimum connection fees required by your state electricity regulatory commission, even when net energy consumption is zero.
+              </p>
+            </div>
+          </div>
+
+          <!-- FAQ 7 -->
+          <div class="accordion-item">
+            <button class="accordion-header" aria-expanded="false" aria-controls="faq7">
+              <span>What is the solar payback period?</span>
+              <span class="accordion-icon">+</span>
+            </button>
+            <div id="faq7" class="accordion-body" hidden>
+              <p>
+                The simple payback period is the time (in years) required for cumulative electricity bill savings to equal your initial net capital investment (gross cost minus government subsidy). In most sun-rich Indian states, rooftop solar recovers its net cost within 3 to 5 years, after which the system generates virtually free electricity for the remainder of its 25-year design lifespan.
+              </p>
+            </div>
+          </div>
+
+          <!-- FAQ 8 -->
+          <div class="accordion-item">
+            <button class="accordion-header" aria-expanded="false" aria-controls="faq8">
+              <span>Why does SolarSaathi display live weather information?</span>
+              <span class="accordion-icon">+</span>
+            </button>
+            <div id="faq8" class="accordion-body" hidden>
+              <p>
+                When online, SolarSaathi connects to the free Open-Meteo API to display current direct solar radiation and cloud cover as an illustrative snapshot of real-time solar intensity. These live observations are purely informational—our long-term generation, financial, and payback calculations rely strictly on verified multi-year regional insolation benchmarks.
+              </p>
+            </div>
+          </div>
+
+          <!-- FAQ 9 -->
+          <div class="accordion-item">
+            <button class="accordion-header" aria-expanded="false" aria-controls="faq9">
+              <span>Does the website require cloud deployment or an account?</span>
+              <span class="accordion-icon">+</span>
+            </button>
+            <div id="faq9" class="accordion-body" hidden>
+              <p>
+                No. SolarSaathi is designed to run entirely locally without requiring user accounts, passwords, paid cloud APIs, AWS credentials, or remote credit cards. All core calculations, mathematical tools, and data persistence run directly on your machine through Python, Flask, and local SQLite.
+              </p>
+            </div>
+          </div>
+
+          <!-- FAQ 10 -->
+          <div class="accordion-item">
+            <button class="accordion-header" aria-expanded="false" aria-controls="faq10">
+              <span>Where can I find official scheme information?</span>
+              <span class="accordion-icon">+</span>
+            </button>
+            <div id="faq10" class="accordion-body" hidden>
+              <p>
+                Official scheme details, eligibility guidelines, technical specifications, and vendor application portals are published by the Ministry of New and Renewable Energy (MNRE) on the National Portal for PM Surya Ghar: Muft Bijli Yojana at <a href="https://www.myscheme.gov.in/schemes/pmsgmb" target="_blank" rel="noopener noreferrer">myscheme.gov.in/schemes/pmsgmb</a>.
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Disclaimers Section -->
+    <section class="disclaimer-section">
+      <div class="container">
+        <!-- Financial Disclaimer -->
+        <article id="financial-disclaimer" class="disclaimer-box">
+          <h4 class="disclaimer-title">⚖️ Financial &amp; Subsidy Disclaimer</h4>
+          <p class="disclaimer-text">
+            All financial figures—including turnkey installation costs (assumed at ₹55,000/kW benchmark), PM Surya Ghar central subsidies (up to ₹78,000 for standard residential systems), monthly savings, and payback periods—are indicative preliminary estimates provided solely for educational and hackathon demonstration purposes. Actual equipment pricing, labor costs, net-metering approval, feed-in tariffs, and subsidy disbursements depend on state-specific DISCOM regulations, consumer category, empanelled contractor quotes, and Ministry of New and Renewable Energy (MNRE) guidelines. SolarSaathi does not guarantee subsidy approval, exact bill reductions, or financial returns. Users should consult their local DISCOM and qualified solar professionals before making financial investments.
+          </p>
+        </article>
+
+        <!-- Data & Environmental Disclaimer -->
+        <article id="data-disclaimer" class="disclaimer-box">
+          <h4 class="disclaimer-title">🌿 Data, Estimates &amp; Environmental Disclaimer</h4>
+          <p class="disclaimer-text">
+            Calculations in this application rely on regional planning insolation benchmarks (4.1 to 5.8 peak sun hours per day) and a standard 80% system performance ratio. Optional Open-Meteo weather readings provide an educational snapshot of current atmospheric irradiance and are not used as the basis for 25-year financial projections. Environmental conversions—such as 0.82 kg CO₂ avoided per kWh, 0.45 kg coal displaced per kWh, 2.5 litres cooling water conserved per kWh, and 22 kg CO₂ annual absorption per mature tree—are simplified grid-average illustrative benchmarks from Central Electricity Authority (CEA) baselines, not direct site measurements. This application does not replace a professional site shadow-analysis or certified structural engineering survey.
+          </p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-container">
+      <div class="footer-grid">
+        <!-- Column 1: Brand -->
+        <div class="footer-col brand-col">
+          <div class="footer-logo">
+            <img src="logo.png" alt="SolarSaathi Logo" class="footer-logo-img">
+            <span class="logo-text">SolarSaathi</span>
+          </div>
+          <p class="footer-tagline">
+            Helping Indian households explore rooftop solar potential, financial savings, and environmental impact with transparent, AI-assisted calculations.
+          </p>
+        </div>
+
+        <!-- Column 2: Explore -->
+        <div class="footer-col">
+          <h4 class="footer-heading">Explore</h4>
+          <ul class="footer-links">
+            <li><a href="#top">Back to Top</a></li>
+            <li><a href="#how-it-works">How It Works</a></li>
+            <li><a href="#why-solar">Why Switch to Solar Now?</a></li>
+            <li><a href="#analytics">Visual Analytics</a></li>
+            <li><a href="#faqs">FAQs</a></li>
+            <li><a href="#calculator">Calculate Solar Savings</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 3: Important Disclaimers -->
+        <div class="footer-col">
+          <h4 class="footer-heading">Important Information</h4>
+          <ul class="footer-links">
+            <li><a href="#financial-disclaimer">Financial &amp; Subsidy Disclaimer</a></li>
+            <li><a href="#data-disclaimer">Data, Estimates &amp; Environmental Disclaimer</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 4: Official Resources -->
+        <div class="footer-col">
+          <h4 class="footer-heading">Official Resources</h4>
+          <p class="footer-subtext">Government of India renewable portals:</p>
+          <ul class="footer-links">
+            <li>
+              <a href="https://www.myscheme.gov.in/schemes/pmsgmb" target="_blank" rel="noopener noreferrer" class="external-link">
+                Official PM Surya Ghar Scheme ↗
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p class="footer-copy">
+          SolarSaathi — Rooftop Solar Savings &amp; Environmental Impact Estimator. Educational estimates only. Actual results may vary.
+        </p>
+        <p class="footer-year">
+          © <span id="currentYear">2026</span> SolarSaathi. Built for India's clean energy transition.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
